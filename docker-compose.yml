@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  frontend:
+    # 개발환경을 위한 Dockerfile이 어디 있는지 알려줌
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    #코드를 수정 후 다시 이미지를 build 하는 것 없이 수정된 코드가 바로 반영이 될 수 있게 volume을 설정
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    # 리액트 앱을 종료할 때 나오는 버그를 잡아줌
+    stdin_open: true
+
+  nginx:
+    # 재시작 정책
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
+    ports:
+      - '3000:80'
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./backend
+    container_name: app_backend
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+
+  # RDS에서 사용하기 때문에 mysql 컨테이너 삭제
+  # mysql:
+  #   build: ./mysql
+  #   restart: unless-stopped
+  #   container_name: app_mysql
+  #   ports:
+  #     - '3306:3306'
+  #   volumes:
+  #     - ./mysql/mysql_data:/var/lib/mysql
+  #     - ./mysql/sqls/:/docker-entrypoint-initdb.d/
+  #   environment:
+  #     MYSQL_HOST: mysql
+  #     MYSQL_ROOT_PASSWORD: 1234
+  #     MYSQL_DATABASE: myapp
+  #     # MYSQL_ROOT_USER: root
+  #     # MYSQL_PASSWORD: 1234
