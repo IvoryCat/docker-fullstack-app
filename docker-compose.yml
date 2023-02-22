@@ -46,7 +46,7 @@ services:
       - ./backend:/app
     environment:
       MYSQL_HOST: docker-fullstack-mysql.cnncoddut30r.ap-northeast-2.rds.amazonaws.com
-      # MYSQL_USER: root
+      MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: cafe7979
       MYSQL_DATABASE: myapp
       MYSQL_PORT: 3306

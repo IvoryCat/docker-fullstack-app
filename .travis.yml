@@ -6,7 +6,8 @@ services:
   - docker
 
 before_install:
-  - docker build -t blue3197/react-test-app -f ./frontend/Dockerfile.dev ./frontend
+  # - docker build -t blue3197/react-test-app -f ./frontend/Dockerfile.dev ./frontend
+  - docker build -t blue3197/react-test-app ./frontend
 
 script:
   - docker run -e CI=true blue3197/react-test-app npm run test
