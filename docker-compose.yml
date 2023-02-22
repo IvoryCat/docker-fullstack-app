@@ -3,11 +3,11 @@ version: '3'
 services:
   frontend:
     # 도커 허브에 저장된 이미지
-    image: blue3197/docker-frontend
+    image: blue3197/docker-frontend:latest
     # 개발환경을 위한 Dockerfile이 어디 있는지 알려줌
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./frontend
+    # build:
+    #   dockerfile: Dockerfile.dev
+    #   context: ./frontend
     #코드를 수정 후 다시 이미지를 build 하는 것 없이 수정된 코드가 바로 반영이 될 수 있게 volume을 설정
     volumes:
       - /app/node_modules
@@ -21,7 +21,7 @@ services:
     # 재시작 정책
     restart: always
     # 도커 허브에 저장된 이미지
-    image: blue3197/docker-nginx
+    image: blue3197/docker-nginx:latest
     # build:
     #   dockerfile: Dockerfile
     #   context: ./nginx
@@ -36,7 +36,7 @@ services:
 
   backend:
     # 도커 허브에 저장된 이미지
-    image: blue3197/docker-backend
+    image: blue3197/docker-backend:latest
     # build:
     #   dockerfile: Dockerfile.dev
     #   context: ./backend
