@@ -2,6 +2,8 @@ version: '3'
 
 services:
   frontend:
+    # 도커 허브에 저장된 이미지
+    image: blue3197/docker-frontend
     # 개발환경을 위한 Dockerfile이 어디 있는지 알려줌
     build:
       dockerfile: Dockerfile.dev
@@ -12,24 +14,43 @@ services:
       - ./frontend:/app
     # 리액트 앱을 종료할 때 나오는 버그를 잡아줌
     stdin_open: true
+    # 메모리 사이즈
+    mem_limit: 128m
 
   nginx:
     # 재시작 정책
     restart: always
-    build:
-      dockerfile: Dockerfile
-      context: ./nginx
+    # 도커 허브에 저장된 이미지
+    image: blue3197/docker-nginx
+    # build:
+    #   dockerfile: Dockerfile
+    #   context: ./nginx
+    # ports:
+    #   - '3000:80'
     ports:
-      - '3000:80'
+      - '80:80'
+    mem_limit: 128m
+    links:
+      - frontend
+      - backend
 
   backend:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./backend
+    # 도커 허브에 저장된 이미지
+    image: blue3197/docker-backend
+    # build:
+    #   dockerfile: Dockerfile.dev
+    #   context: ./backend
     container_name: app_backend
     volumes:
       - /app/node_modules
       - ./backend:/app
+    environment:
+      MYSQL_HOST: docker-fullstack-mysql.cnncoddut30r.ap-northeast-2.rds.amazonaws.com
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: cafe7979
+      MYSQL_DATABASE: myapp
+      MYSQL_PORT: 3306
+    mem_limit: 128m
 
   # RDS에서 사용하기 때문에 mysql 컨테이너 삭제
   # mysql:
