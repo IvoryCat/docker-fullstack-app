@@ -8,6 +8,6 @@ RUN npm run build
 # Path: frontend/Dockerfile.dev
 # Compare this snippet from frontend/Dockerfile:
 FROM nginx
-EXPOSE 3000
+EXPOSE 80
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/build /usr/share/nginx/html
